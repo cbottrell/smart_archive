@@ -1,0 +1,12 @@
+# Slurm job output files (logs and errors)
+*.err
+*.out
+
+# Python bytecode
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Temporary files
+.tmp/
+*.tmp
