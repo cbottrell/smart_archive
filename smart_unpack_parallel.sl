@@ -14,8 +14,8 @@
 # Configuration: Set archive and extraction directory
 # EXTRACT_DIR is where files will be extracted (archives contain relative paths)
 export ARCHIVE_DIR="/scratch/pawsey1149/bottrell/Simulations"
-export ARCHIVE_PATTERN="EAGLE_*.tar"
-export EXTRACT_DIR="/scratch/pawsey1149/bottrell/Simulations"
+export ARCHIVE_PATTERN="swift-eagle_*.tar"
+export EXTRACT_DIR="/scratch/pawsey1149/bottrell/Simulations/test_dir"
 export MAX_PARALLEL=$SLURM_CPUS_PER_TASK
 
 bash smart_unpack_parallel.sh

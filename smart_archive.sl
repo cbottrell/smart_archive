@@ -11,10 +11,10 @@
 #SBATCH --mail-user=connor.bottrell@uwa.edu.au
 #SBATCH --export=NONE
 
-export SOURCE_DIR="/scratch/pawsey1149/bottrell/Simulations/EAGLE"
-export OUTPUT_PREFIX="EAGLE"
+export SOURCE_DIR="/scratch/pawsey1149/bottrell/Simulations/swift-eagle"
+export OUTPUT_PREFIX="swift-eagle"
 export OUTPUT_DIR="/scratch/pawsey1149/bottrell/Simulations"
 export TEMP_DIR="/scratch/pawsey1149/bottrell/tmp"
-export NUM_PARTS=512
+export NUM_PARTS=128
 
 bash smart_archive.sh
