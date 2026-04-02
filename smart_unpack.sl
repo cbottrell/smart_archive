@@ -13,8 +13,8 @@
 
 # Configuration: Set archive and extraction directory
 # EXTRACT_DIR is where files will be extracted (archives contain relative paths)
-export ARCHIVE_DIR="/scratch/pawsey1149/bottrell/Simulations"
+export ARCHIVE_DIR="/scratch/pawsey1149/bottrell/Simulations/eagle"
 export ARCHIVE_PATTERN="EAGLE_*.tar"
 export EXTRACT_DIR="/scratch/pawsey1149/bottrell/Simulations/eagle"
 
-bash smart_unpack_v2.sh
+bash smart_unpack.sh

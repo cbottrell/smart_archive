@@ -18,4 +18,4 @@ export ARCHIVE_PATTERN="EAGLE_*.tar"
 export EXTRACT_DIR="/scratch/pawsey1149/bottrell/Simulations"
 export MAX_PARALLEL=$SLURM_CPUS_PER_TASK
 
-bash smart_unpack_v2_parallel.sh
+bash smart_unpack_parallel.sh
