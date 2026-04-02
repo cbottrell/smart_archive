@@ -106,9 +106,9 @@ create_archive() {
     # --------------------
 
     # TAR COMMAND:
-    # -c (create), -P (preserve absolute paths), -f (filename)
-    # --no-recursion (must be before -T), -T (input list)
-    tar -cPf "$archive_name" --no-recursion -T "$list_file"
+    # -c (create), -f (filename), --no-recursion (must be before -T), -T (input list)
+    # Note: Omitting -P to store relative paths, making archives portable
+    tar -cf "$archive_name" --no-recursion -T "$list_file"
 }
 
 export -f create_archive

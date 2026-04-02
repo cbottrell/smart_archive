@@ -96,12 +96,12 @@ create_archive() {
     fi
     # --------------------
 
-    # CORRECTED TAR COMMAND:
+    # TAR COMMAND:
     # 1. -c (create), -f (filename)
-    # 2. -P (preserve absolute paths - do NOT strip leading /)
-    # 3. --no-recursion (flag MUST be before -T)
-    # 4. -T (input list)
-    tar -cPf "$archive_name" --no-recursion -T "$list_file"
+    # 2. --no-recursion (flag MUST be before -T)
+    # 3. -T (input list)
+    # Note: Omitting -P to store relative paths, making archives portable
+    tar -cf "$archive_name" --no-recursion -T "$list_file"
 }
 
 # Process sequentially

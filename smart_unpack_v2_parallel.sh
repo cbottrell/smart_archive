@@ -1,10 +1,10 @@
 #!/bin/bash
 
 # ==============================================================================
-# SMART UNPACK V2 PARALLEL - Unpacks tar archives with absolute paths preserved
+# SMART UNPACK V2 PARALLEL - Unpacks tar archives with relative paths
 # ==============================================================================
 # Parallelized version: runs MAX_PARALLEL extraction jobs simultaneously
-# Designed for tar files created by updated smart_archive.sh which uses -P flag
+# Designed for tar files created by updated smart_archive.sh which stores relative paths
 # ==============================================================================
 # CONFIGURATION
 # ==============================================================================
@@ -42,7 +42,7 @@ if [ ! -d "$TARGET_DIR" ]; then
     exit 1
 fi
 
-echo "--- Starting Smart Unpack V2 Parallel (Absolute Paths) ---"
+echo "--- Starting Smart Unpack V2 Parallel (Relative Paths) ---"
 echo "Source Archives: $ARCHIVE_DIR/$ARCHIVE_PATTERN"
 echo "Target Directory: $TARGET_DIR"
 echo "Parallel Jobs: $MAX_PARALLEL"
@@ -57,9 +57,9 @@ fi
 
 echo "Found $archive_count archives to process"
 
-# 2. EXTRACTION WITH ABSOLUTE PATHS PRESERVED (PARALLEL)
+# 2. EXTRACTION WITH RELATIVE PATHS (PARALLEL)
 # ------------------------------------------------------------------------------
-echo "[1/2] Extracting archives with absolute paths (parallel mode)..."
+echo "[1/2] Extracting archives with relative paths (parallel mode)..."
 
 extract_archive() {
     archive_file=$1
@@ -73,11 +73,10 @@ extract_archive() {
         return 1
     fi
 
-    # Extract with absolute paths preserved:
-    # -P (preserve absolute paths - do NOT strip leading /)
-    # No --transform needed; paths are already absolute (/scratch/pawsey1149/...)
+    # Extract with relative paths to target directory
+    # Archives contain relative paths, extraction creates subdirectories
     pushd "$TARGET_DIR" > /dev/null
-    tar -xPf "$archive_file"
+    tar -xf "$archive_file"
     popd > /dev/null
     
     echo "          ... $archive_name extraction complete"

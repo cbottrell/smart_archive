@@ -19,6 +19,6 @@ export OUTPUT_PREFIX="EAGLE"
 export OUTPUT_DIR="/scratch/pawsey1149/bottrell/Simulations"
 export TEMP_DIR="/scratch/pawsey1149/bottrell/tmp"
 export NUM_PARTS=512
-export MAX_PARALLEL=4
+export MAX_PARALLEL=$SLURM_CPUS_PER_TASK
 
 bash smart_archive_parallel.sh

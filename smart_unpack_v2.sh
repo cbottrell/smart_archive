@@ -1,10 +1,10 @@
 #!/bin/bash
 
 # ==============================================================================
-# SMART UNPACK V2 - Unpacks tar archives with absolute paths preserved
+# SMART UNPACK V2 - Unpacks tar archives with relative paths
 # ==============================================================================
 # Designed to work with tar files created by updated smart_archive.sh
-# which uses -P flag to preserve absolute paths (e.g., /scratch/pawsey1149/...)
+# which stores relative paths for portable extraction across filesystems
 # ==============================================================================
 # CONFIGURATION
 # ==============================================================================
@@ -38,7 +38,7 @@ if [ ! -d "$TARGET_DIR" ]; then
     exit 1
 fi
 
-echo "--- Starting Smart Unpack V2 (Absolute Paths) ---"
+echo "--- Starting Smart Unpack V2 (Relative Paths) ---"
 echo "Source Archives: $ARCHIVE_DIR/$ARCHIVE_PATTERN"
 echo "Target Directory: $TARGET_DIR"
 echo "Extract Verification: $EXTRACT_DIR"
@@ -52,9 +52,9 @@ fi
 
 echo "Found $archive_count archives to process"
 
-# 2. EXTRACTION WITH ABSOLUTE PATHS PRESERVED
+# 2. EXTRACTION WITH RELATIVE PATHS
 # ------------------------------------------------------------------------------
-echo "[1/2] Extracting archives with absolute paths..."
+echo "[1/2] Extracting archives with relative paths..."
 
 extract_archive() {
     archive_file=$1
@@ -68,17 +68,15 @@ extract_archive() {
         return 1
     fi
 
-    # Extract with absolute paths preserved:
-    # -P (preserve absolute paths - do NOT strip leading /)
-    # No --transform needed; paths are already absolute (/scratch/pawsey1149/...)
-    # Use pushd/popd instead of subshell to handle set -e better
+    # Extract with relative paths to target directory
+    # Archives contain relative paths, extraction creates subdirectories
     pushd "$TARGET_DIR" > /dev/null
-    tar -xPf "$archive_file"
+    tar -xf "$archive_file"
     popd > /dev/null
     
     echo "OK"
     return 0
-}
+
 
 # Process all matching archives sequentially
 failed_count=0

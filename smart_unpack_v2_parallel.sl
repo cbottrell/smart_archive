@@ -15,10 +15,11 @@
 module load rclone/1.68.1
 
 # Configuration: Set archive and target directories
+# TARGET_DIR is where extracted files will be placed (archives contain relative paths)
 export ARCHIVE_DIR="/scratch/pawsey1149/bottrell/Simulations"
 export ARCHIVE_PATTERN="EAGLE_*.tar"
-export TARGET_DIR="/"
+export TARGET_DIR="/scratch/pawsey1149/bottrell/Simulations"
 export EXTRACT_DIR="/scratch/pawsey1149/bottrell/Simulations"
-export MAX_PARALLEL=4
+export MAX_PARALLEL=$SLURM_CPUS_PER_TASK
 
 bash smart_unpack_v2_parallel.sh
