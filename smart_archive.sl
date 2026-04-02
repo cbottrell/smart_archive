@@ -5,8 +5,8 @@
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=1
 #SBATCH --time=23:59:59
-#SBATCH --output=Slurm/archive_%A.out
-#SBATCH --error=Slurm/archive_%A.err
+#SBATCH --output=archive_%A.out
+#SBATCH --error=archive_%A.err
 #SBATCH --mail-type=END,FAIL
 #SBATCH --mail-user=connor.bottrell@uwa.edu.au
 #SBATCH --export=NONE
