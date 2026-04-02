@@ -11,9 +11,6 @@
 #SBATCH --mail-user=connor.bottrell@uwa.edu.au
 #SBATCH --export=NONE
 
-# Modules 
-module load rclone/1.68.1
-
 export SOURCE_DIR="/scratch/pawsey1149/bottrell/Simulations/EAGLE"
 export OUTPUT_PREFIX="EAGLE"
 export OUTPUT_DIR="/scratch/pawsey1149/bottrell/Simulations"

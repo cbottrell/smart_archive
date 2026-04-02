@@ -11,9 +11,6 @@
 #SBATCH --mail-user=connor.bottrell@uwa.edu.au
 #SBATCH --export=NONE
 
-# Modules 
-module load rclone/1.68.1
-
 # Configuration: Set archive and target directories
 # TARGET_DIR is where extracted files will be placed (archives contain relative paths)
 export ARCHIVE_DIR="/scratch/pawsey1149/bottrell/Simulations"
