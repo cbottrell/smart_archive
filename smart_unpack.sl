@@ -4,7 +4,7 @@
 #SBATCH --partition=copy
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=1
-#SBATCH --mem=4G
+#SBATCH --mem=2G
 #SBATCH --time=23:59:59
 #SBATCH --output=unpack_%A.out
 #SBATCH --error=unpack_%A.err
@@ -14,8 +14,8 @@
 
 # Configuration: Set archive and extraction directory
 # EXTRACT_DIR is where files will be extracted (archives contain relative paths)
-export ARCHIVE_DIR="/scratch/pawsey1149/bottrell/Simulations"
+export ARCHIVE_DIR="/scratch/pawsey1149/bottrell/archives"
 export ARCHIVE_PATTERN="swift-eagle_*.tar"
-export EXTRACT_DIR="/scratch/pawsey1149/bottrell/Simulations/test_dir"
+export EXTRACT_DIR="/scratch/pawsey1149/bottrell/Simulations"
 
 bash smart_unpack.sh

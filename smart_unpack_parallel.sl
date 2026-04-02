@@ -4,6 +4,7 @@
 #SBATCH --partition=copy
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=4
+#SBATCH --mem=8G
 #SBATCH --time=23:59:59
 #SBATCH --output=unpack_parallel_%A.out
 #SBATCH --error=unpack_parallel_%A.err
@@ -13,9 +14,9 @@
 
 # Configuration: Set archive and extraction directory
 # EXTRACT_DIR is where files will be extracted (archives contain relative paths)
-export ARCHIVE_DIR="/scratch/pawsey1149/bottrell/Simulations"
+export ARCHIVE_DIR="/scratch/pawsey1149/bottrell/archives"
 export ARCHIVE_PATTERN="swift-eagle_*.tar"
-export EXTRACT_DIR="/scratch/pawsey1149/bottrell/Simulations/test_dir"
+export EXTRACT_DIR="/scratch/pawsey1149/bottrell/Simulations"
 export MAX_PARALLEL=$SLURM_CPUS_PER_TASK
 
 bash smart_unpack_parallel.sh
