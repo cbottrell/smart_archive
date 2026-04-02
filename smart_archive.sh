@@ -42,7 +42,7 @@ rm -f "$TEMP_DIR"/*.txt
 # 2. INVENTORY & SORTING
 # ------------------------------------------------------------------------------
 echo "[1/4] Scanning and sorting files..."
-find "$SOURCE_DIR" -path "$OUTPUT_DIR" -prune -o -type f -printf "%s\t%p\n" | sort -rn > "$TEMP_DIR/all_files_sorted.txt"
+find "$SOURCE_DIR" -path "$OUTPUT_DIR" -prune -o -type f -printf "%s\t%p\n" | sort -rn | sed "s|$SOURCE_DIR/||" > "$TEMP_DIR/all_files_sorted.txt"
 
 # 3. DISTRIBUTION (Bin Packing)
 # ------------------------------------------------------------------------------
@@ -99,9 +99,10 @@ create_archive() {
     # TAR COMMAND:
     # 1. -c (create), -f (filename)
     # 2. --no-recursion (flag MUST be before -T)
-    # 3. -T (input list)
+    # 3. -C changes to SOURCE_DIR so only relative paths are stored
+    # 4. -T (input list)
     # Note: Omitting -P to store relative paths, making archives portable
-    tar -cf "$archive_name" --no-recursion -T "$list_file"
+    tar -C "$SOURCE_DIR" -cf "$archive_name" --no-recursion -T "$list_file"
 }
 
 # Process sequentially
