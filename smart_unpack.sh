@@ -10,8 +10,7 @@
 # ==============================================================================
 # ARCHIVE_DIR="$1"                      # Directory containing .tar files
 # ARCHIVE_PATTERN="EAGLE_*.tar"         # Pattern for tar files to unpack
-# TARGET_DIR="/"                        # Target directory for extraction
-# EXTRACT_DIR="/scratch/pawsey1149/bottrell/Simulations"  # Where to verify extracted files
+# EXTRACT_DIR="/scratch/pawsey1149/bottrell/Simulations"  # Directory for extraction
 # ==============================================================================
 
 # Exit on error (safety)
@@ -24,7 +23,7 @@ trap 'echo "ERROR: Script failed at line $LINENO"; exit 1' ERR
 # ------------------------------------------------------------------------------
 if [ -z "$ARCHIVE_DIR" ]; then
     echo "Usage: $0"
-    echo "Set ARCHIVE_DIR, ARCHIVE_PATTERN, TARGET_DIR environment variables"
+    echo "Set ARCHIVE_DIR, ARCHIVE_PATTERN, EXTRACT_DIR environment variables"
     exit 1
 fi
 
@@ -33,15 +32,14 @@ if [ ! -d "$ARCHIVE_DIR" ]; then
     exit 1
 fi
 
-if [ ! -d "$TARGET_DIR" ]; then
-    echo "ERROR: TARGET_DIR does not exist: $TARGET_DIR"
+if [ ! -d "$EXTRACT_DIR" ]; then
+    echo "ERROR: EXTRACT_DIR does not exist: $EXTRACT_DIR"
     exit 1
 fi
 
 echo "--- Starting Smart Unpack V2 (Relative Paths) ---"
 echo "Source Archives: $ARCHIVE_DIR/$ARCHIVE_PATTERN"
-echo "Target Directory: $TARGET_DIR"
-echo "Extract Verification: $EXTRACT_DIR"
+echo "Extract Directory: $EXTRACT_DIR"
 
 # Count archives
 archive_count=$(find "$ARCHIVE_DIR" -maxdepth 1 -name "$ARCHIVE_PATTERN" -type f | wc -l)
@@ -68,9 +66,9 @@ extract_archive() {
         return 1
     fi
 
-    # Extract with relative paths to target directory
+    # Extract with relative paths to extract directory
     # Archives contain relative paths, extraction creates subdirectories
-    pushd "$TARGET_DIR" > /dev/null
+    pushd "$EXTRACT_DIR" > /dev/null
     tar -xf "$archive_file"
     popd > /dev/null
     
@@ -92,24 +90,20 @@ for archive_file in "$ARCHIVE_DIR"/$ARCHIVE_PATTERN; do
     fi
 done
 
-# 3. VERIFICATION (Optional)
+# 3. VERIFICATION
 # ------------------------------------------------------------------------------
-if [ -n "$EXTRACT_DIR" ] && [ -d "$EXTRACT_DIR" ]; then
-    echo "[2/2] Verifying extracted files..."
+echo "[2/2] Verifying extracted files..."
+
+file_count=$(find "$EXTRACT_DIR" -type f | wc -l)
+dir_count=$(find "$EXTRACT_DIR" -type d | wc -l)
     
-    file_count=$(find "$EXTRACT_DIR" -type f | wc -l)
-    dir_count=$(find "$EXTRACT_DIR" -type d | wc -l)
-    
-    echo "      Extracted directories: $dir_count"
-    echo "      Extracted files: $file_count"
-    
-    # Check for any "scratch" directories in current directory (sign of failed paths)
-    if [ -d "scratch" ]; then
-        echo "      WARNING: Found 'scratch' directory in current path!"
-        echo "      Some files may not have been extracted with absolute paths."
-    fi
-else
-    echo "[2/2] Skipping verification (EXTRACT_DIR not set or doesn't exist)"
+echo "      Extracted directories: $dir_count"
+echo "      Extracted files: $file_count"
+
+# Check for any "scratch" directories in current directory (sign of failed paths)
+if [ -d "scratch" ]; then
+    echo "      WARNING: Found 'scratch' directory in current path!"
+    echo "      Some files may not have been extracted with relative paths."
 fi
 
 # 4. SUMMARY

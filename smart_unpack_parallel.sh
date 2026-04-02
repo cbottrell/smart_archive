@@ -10,8 +10,7 @@
 # ==============================================================================
 # ARCHIVE_DIR                           # Directory containing .tar files
 # ARCHIVE_PATTERN                       # Pattern for tar files to unpack
-# TARGET_DIR                            # Target directory for extraction (/)
-# EXTRACT_DIR                           # Where to verify extracted files
+# EXTRACT_DIR                           # Directory for extraction
 # MAX_PARALLEL                          # Number of parallel jobs (default: 4)
 # ==============================================================================
 
@@ -25,7 +24,7 @@ trap 'echo "ERROR: Script failed at line $LINENO"; kill $(jobs -p) 2>/dev/null |
 # ------------------------------------------------------------------------------
 if [ -z "$ARCHIVE_DIR" ]; then
     echo "Usage: $0"
-    echo "Set ARCHIVE_DIR, ARCHIVE_PATTERN, TARGET_DIR, MAX_PARALLEL environment variables"
+    echo "Set ARCHIVE_DIR, ARCHIVE_PATTERN, EXTRACT_DIR, MAX_PARALLEL environment variables"
     exit 1
 fi
 
@@ -37,16 +36,15 @@ if [ ! -d "$ARCHIVE_DIR" ]; then
     exit 1
 fi
 
-if [ ! -d "$TARGET_DIR" ]; then
-    echo "ERROR: TARGET_DIR does not exist: $TARGET_DIR"
+if [ ! -d "$EXTRACT_DIR" ]; then
+    echo "ERROR: EXTRACT_DIR does not exist: $EXTRACT_DIR"
     exit 1
 fi
 
 echo "--- Starting Smart Unpack V2 Parallel (Relative Paths) ---"
 echo "Source Archives: $ARCHIVE_DIR/$ARCHIVE_PATTERN"
-echo "Target Directory: $TARGET_DIR"
+echo "Extract Directory: $EXTRACT_DIR"
 echo "Parallel Jobs: $MAX_PARALLEL"
-echo "Extract Verification: $EXTRACT_DIR"
 
 # Count archives
 archive_count=$(find "$ARCHIVE_DIR" -maxdepth 1 -name "$ARCHIVE_PATTERN" -type f | wc -l)
@@ -73,9 +71,9 @@ extract_archive() {
         return 1
     fi
 
-    # Extract with relative paths to target directory
+    # Extract with relative paths to extract directory
     # Archives contain relative paths, extraction creates subdirectories
-    pushd "$TARGET_DIR" > /dev/null
+    pushd "$EXTRACT_DIR" > /dev/null
     tar -xf "$archive_file"
     popd > /dev/null
     
@@ -84,7 +82,7 @@ extract_archive() {
 }
 
 export -f extract_archive
-export TARGET_DIR
+export EXTRACT_DIR
 
 # Process all matching archives in parallel
 job_count=0

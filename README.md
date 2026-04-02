@@ -54,8 +54,7 @@ Extracts tar archives while automatically correcting and preserving file paths. 
 Set the following environment variables before running:
 - `ARCHIVE_DIR` - Directory containing tar files to extract
 - `ARCHIVE_PATTERN` - Pattern for matching archives (e.g., "EAGLE_*.tar")
-- `TARGET_DIR` - Root directory where files should be extracted (typically "/")
-- `EXTRACT_DIR` - Optional: Directory to verify extracted files were written
+- `EXTRACT_DIR` - Directory where files should be extracted
 
 ### Key Features
 - **Relative path extraction**: Extracts archives with relative paths to preserve directory structure
@@ -66,10 +65,9 @@ Set the following environment variables before running:
 ```bash
 export ARCHIVE_DIR=/path/to/archives
 export ARCHIVE_PATTERN="EAGLE_*.tar"
-export TARGET_DIR=/
-export EXTRACT_DIR=/scratch/pawsey1149/bottrell/Simulations
+export EXTRACT_DIR=/path/to/extract
 
-./smart_unpack.sh
+./smart_unpack_v2.sh
 ```
 
 ## Slurm Integration
