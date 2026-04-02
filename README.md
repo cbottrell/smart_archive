@@ -32,7 +32,7 @@ Set the following environment variables before running:
 ### Key Features
 - **Bin-packing algorithm**: Files are sorted by size (largest first) and distributed into the partition with the least data
 - **Resume support**: If interrupted, existing archives are validated; corrupted ones are recreated
-- **Path preservation**: Maintains absolute paths in the archives
+- **Portable archives**: Stores relative paths, making archives portable and extractable to any location
 
 ### Usage
 ```bash
@@ -58,7 +58,7 @@ Set the following environment variables before running:
 - `EXTRACT_DIR` - Optional: Directory to verify extracted files were written
 
 ### Key Features
-- **Path transformation**: Automatically prepends "/" to relative paths in archives to ensure correct extraction location
+- **Relative path extraction**: Extracts archives with relative paths to preserve directory structure
 - **Validation**: Can verify that extracted files are present in the expected location
 - **Error handling**: Reports corrupt archives and fails safely
 
@@ -101,8 +101,14 @@ Both scripts include robust error handling:
 - Detailed logging of progress through each phase
 - Safe cleanup procedures
 
-## Notes
+## Dependencies
 
 - Requires standard Unix utilities: `bash`, `tar`, `find`, `awk`
+- No special modules required (Slurm partition=copy)
 - Designed for high-performance computing environments (tested with Pawsey Supercomputing Centre infrastructure)
+
+## Notes
+
+- Archives use relative paths for portability
 - Use with caution on production systems; test with small datasets first
+- For optimal performance, use parallel variants on systems with multiple CPU cores
