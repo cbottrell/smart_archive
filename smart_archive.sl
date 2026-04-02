@@ -4,6 +4,7 @@
 #SBATCH --partition=copy
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=1
+#SBATCH --mem=2G
 #SBATCH --time=23:59:59
 #SBATCH --output=archive_%A.out
 #SBATCH --error=archive_%A.err

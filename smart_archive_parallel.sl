@@ -3,7 +3,8 @@
 #SBATCH --job-name=archive_parallel
 #SBATCH --partition=copy
 #SBATCH --ntasks=1
-#SBATCH --cpus-per-task=4
+#SBATCH --cpus-per-task=8
+#SBATCH --mem=16G
 #SBATCH --time=23:59:59
 #SBATCH --output=archive_parallel_%A.out
 #SBATCH --error=archive_parallel_%A.err
