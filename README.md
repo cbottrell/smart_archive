@@ -24,9 +24,9 @@ Packages the contents of a source directory into a configurable number of tar ar
 ### Configuration
 Set the following environment variables before running:
 - `SOURCE_DIR` - Directory to archive
-- `OUTPUT_DIR` - Where to write the tar files
+- `OUTPUT_DIR` - Where to write the tar files  
 - `OUTPUT_PREFIX` - Naming prefix for archives (e.g., "EAGLE_WDM" produces "EAGLE_WDM_001.tar", etc.)
-- `NUM_PARTS` - Number of tar files to create (default: 512)
+- `NUM_PARTS` - Number of tar files to create
 - `TEMP_DIR` - Temporary scratch directory for file lists
 
 ### Key Features
@@ -36,10 +36,10 @@ Set the following environment variables before running:
 
 ### Usage
 ```bash
-export SOURCE_DIR=/path/to/data
-export OUTPUT_DIR=/path/to/archives
-export OUTPUT_PREFIX=EAGLE_WDM
-export NUM_PARTS=512
+export SOURCE_DIR=/scratch/pawsey1149/bottrell/swift-eagle
+export OUTPUT_DIR=/scratch/pawsey1149/bottrell/archives
+export OUTPUT_PREFIX=swift-eagle
+export NUM_PARTS=128
 export TEMP_DIR=/scratch/pawsey1149/bottrell/tmp
 
 ./smart_archive.sh
@@ -58,7 +58,7 @@ Extracts tar archives while automatically correcting and preserving file paths. 
 ### Configuration
 Set the following environment variables before running:
 - `ARCHIVE_DIR` - Directory containing tar files to extract
-- `ARCHIVE_PATTERN` - Pattern for matching archives (e.g., "EAGLE_*.tar")
+- `ARCHIVE_PATTERN` - Pattern for matching archives (e.g., "swift-eagle_*.tar")
 - `EXTRACT_DIR` - Directory where files should be extracted
 
 ### Key Features
@@ -68,9 +68,9 @@ Set the following environment variables before running:
 
 ### Usage
 ```bash
-export ARCHIVE_DIR=/path/to/archives
-export ARCHIVE_PATTERN="EAGLE_*.tar"
-export EXTRACT_DIR=/path/to/extract
+export ARCHIVE_DIR=/scratch/pawsey1149/bottrell/archives
+export ARCHIVE_PATTERN="swift-eagle_*.tar"
+export EXTRACT_DIR=/scratch/pawsey1149/bottrell/Simulations
 
 ./smart_unpack.sh
 ```
