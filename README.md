@@ -1,6 +1,6 @@
 # Smart Archive & Unpack Tools
 
-A set of intelligent shell scripts for efficiently packinglarge directory structures into multiple tar archives and extracting them with proper path handling.
+A set of intelligent shell scripts for efficiently packing large directory structures into multiple tar archives and extracting them with proper path handling.
 
 ## Overview
 
@@ -14,7 +14,7 @@ These tools solve the challenge of archiving very large data sets by:
 - Archiving large simulation outputs or datasets
 - Distributing files across multiple archives for improved I/O performance
 - Resumable archiving (corrupted archives are automatically recreated)
-- Path-preserving extraction with automatic transformation for correct directory placement
+- Portable archives that extract cleanly to any location with relative directory structure
 
 ## Smart Archive
 
@@ -32,7 +32,7 @@ Set the following environment variables before running:
 ### Key Features
 - **Bin-packing algorithm**: Files are sorted by size (largest first) and distributed into the partition with the least data
 - **Resume support**: If interrupted, existing archives are validated; corrupted ones are recreated
-- **Portable archives**: Stores relative paths, making archives portable and extractable to any location
+- **Clean relative paths**: Uses `tar -C` to store only relative paths from SOURCE_DIR, ensuring clean directory structure on extraction (e.g., `swift-eagle/file.txt` instead of full paths)
 
 ### Usage
 ```bash
@@ -43,6 +43,11 @@ export NUM_PARTS=512
 export TEMP_DIR=/scratch/pawsey1149/bottrell/tmp
 
 ./smart_archive.sh
+```
+
+### Slurm Submission
+```bash
+sbatch smart_archive.sl
 ```
 
 ## Smart Unpack
@@ -67,29 +72,37 @@ export ARCHIVE_DIR=/path/to/archives
 export ARCHIVE_PATTERN="EAGLE_*.tar"
 export EXTRACT_DIR=/path/to/extract
 
-./smart_unpack_v2.sh
+./smart_unpack.sh
+```
+
+### Slurm Submission
+```bash
+sbatch smart_unpack.sl
 ```
 
 ## Slurm Integration
 
 Submit archiving or unpacking jobs to the Slurm job scheduler using the provided `.sl` batch scripts:
 
-- `smart_archive.sl` - Batch script for running `smart_archive.sh` on Slurm
-- `smart_unpack.sh` - Batch script for running `smart_unpack.sh` on Slurm
+- `smart_archive.sl` - Runs `smart_archive.sh` sequentially (1 CPU core)
+- `smart_unpack.sl` - Runs `smart_unpack.sh` sequentially (1 CPU core)
+- `smart_archive_parallel.sl` - Runs `smart_archive_parallel.sh` with parallelization (4 CPU cores by default)
+- `smart_unpack_parallel.sl` - Runs `smart_unpack_parallel.sh` with parallelization (4 CPU cores by default)
 
 ### Example
 ```bash
-sbatch smart_archive.sl
-sbatch smart_unpack.sl
+sbatch smart_archive_parallel.sl
+sbatch smart_unpack_parallel.sl
 ```
 
 ## Parallel Variants
 
-Parallel versions of these tools are also available:
-- `smart_archive_parallel.sh` / `smart_archive_parallel.sl`
-- `smart_unpack_v2_parallel.sh` / `smart_unpack_v2_parallel.sl`
+Parallel versions of these tools are also available for improved performance on multi-core systems:
 
-These variants provide enhanced performance for distributed archiving and unpacking across multiple compute nodes.
+- `smart_archive_parallel.sh` / `smart_archive_parallel.sl` - Parallel archiving (runs multiple tar jobs simultaneously)
+- `smart_unpack_parallel.sh` / `smart_unpack_parallel.sl` - Parallel extraction (runs multiple tar jobs simultaneously)
+
+These variants spawn multiple tar jobs controlled by `MAX_PARALLEL` environment variable (defaults to `$SLURM_CPUS_PER_TASK` in batch scripts).
 
 ## Error Handling
 
@@ -107,6 +120,8 @@ Both scripts include robust error handling:
 
 ## Notes
 
-- Archives use relative paths for portability
+- Archives store only relative paths (e.g., `swift-eagle/file.txt`) for portability and clean extraction
 - Use with caution on production systems; test with small datasets first
-- For optimal performance, use parallel variants on systems with multiple CPU cores
+- For optimal performance on multi-core systems, use parallel variants (`smart_archive_parallel.sh`, `smart_unpack_parallel.sh`)
+- Parallel variants spawn multiple tar jobs controlled by `MAX_PARALLEL` environment variable
+- All scripts validate archive integrity before and after operations
