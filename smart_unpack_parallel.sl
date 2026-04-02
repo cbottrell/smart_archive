@@ -1,13 +1,13 @@
 #!/bin/bash -l
 #SBATCH --account=pawsey1149
-#SBATCH --job-name=unpack_v2_parallel
+#SBATCH --job-name=unpack_parallel
 #SBATCH --partition=copy
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=4
 #SBATCH --mem=8G
 #SBATCH --time=23:59:59
-#SBATCH --output=unpack_parallel_%A.out
-#SBATCH --error=unpack_parallel_%A.err
+#SBATCH --output=unpack_parallel.out
+#SBATCH --error=unpack_parallel.err
 #SBATCH --mail-type=END,FAIL
 #SBATCH --mail-user=connor.bottrell@uwa.edu.au
 #SBATCH --export=NONE
@@ -16,7 +16,7 @@
 # EXTRACT_DIR is where files will be extracted (archives contain relative paths)
 export ARCHIVE_DIR="/scratch/pawsey1149/bottrell/archives"
 export ARCHIVE_PATTERN="swift-eagle_*.tar"
-export EXTRACT_DIR="/scratch/pawsey1149/bottrell/Simulations"
+export EXTRACT_DIR="/scratch/pawsey1149/bottrell"
 export MAX_PARALLEL=$SLURM_CPUS_PER_TASK
 
 bash smart_unpack_parallel.sh

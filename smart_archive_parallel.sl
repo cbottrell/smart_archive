@@ -6,8 +6,8 @@
 #SBATCH --cpus-per-task=8
 #SBATCH --mem=16G
 #SBATCH --time=23:59:59
-#SBATCH --output=archive_parallel_%A.out
-#SBATCH --error=archive_parallel_%A.err
+#SBATCH --output=archive_parallel.out
+#SBATCH --error=archive_parallel.err
 #SBATCH --mail-type=END,FAIL
 #SBATCH --mail-user=connor.bottrell@uwa.edu.au
 #SBATCH --export=NONE
